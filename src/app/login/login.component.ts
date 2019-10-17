@@ -11,6 +11,8 @@ import{AuthService} from '../auth.service'
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  isValidUser:boolean;
+
   constructor(private route:Router, private auth: AuthService) { }
 
   
@@ -24,9 +26,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void{
     console.log(this.loginForm.value);
-    if(this.auth.isValid(this.loginForm.value.username, this.loginForm.value.password)){
-      this.route.navigate(['/about']);
-    }
+    
+    this.isValidUser = this.auth.isValid(this.loginForm.value.username, this.loginForm.value.password)
+    this.auth.setLoggedIn(this.isValidUser)
+    this.route.navigate(['/about']);
+    
     
   }
 
